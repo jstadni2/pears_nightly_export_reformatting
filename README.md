@@ -1,6 +1,6 @@
 # pears_nightly_export_reformatting
 
-By default, [PEARS](https://www.k-state.edu/oeie/pears/) exports custom multi-select dropdown fields formatted as binary columns for each field value like so:
+[PEARS](https://www.k-state.edu/oeie/pears/) exports custom multi-select dropdown fields formatted as binary columns for each field value like so:
 
 | module_id | custom_field_value_1 | custom_field_value_2 | custom_field_value_3 |
 |-----------|----------------------|----------------------|----------------------|
