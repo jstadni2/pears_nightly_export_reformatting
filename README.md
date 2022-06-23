@@ -1,4 +1,4 @@
-# pears_nightly_export_reformatting
+# PEARS Nightly Export Reformatting
 
 [PEARS](https://www.k-state.edu/oeie/pears/) exports custom multi-select dropdown fields formatted as binary columns for each field value like so:
 
