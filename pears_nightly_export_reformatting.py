@@ -1,5 +1,6 @@
 import boto3
 import os
+import shutil
 import pandas as pd
 import numpy as np
 import openpyxl
@@ -16,32 +17,44 @@ from openpyxl.styles import Font, PatternFill, Border, Side
 # Reference:
 # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
 
+# Uncomment the following lines to import PEARS modules from AWS S3
 
-# Use PEARS AWS S3 credentials
-session = boto3.Session(profile_name='your_profile_name')  
+# # Use PEARS AWS S3 credentials
+# session = boto3.Session(profile_name='your_profile_name')  
 
-# Illinois Extension is only authorized to access the following subdirectory
-prefix = 'uie/'
-# Access S3 objects uploaded the day reformatting script is run
-ts = pd.to_datetime("today").strftime("%Y/%m/%d/")
-conn = session.client('s3')
-my_bucket = 'exports.pears.oeie.org'
+# # Illinois Extension is only authorized to access the following subdirectory
+# prefix = 'uie/'
+# # Access S3 objects uploaded the day reformatting script is run
+# ts = pd.to_datetime("today").strftime("%Y/%m/%d/")
+# conn = session.client('s3')
+# my_bucket = 'exports.pears.oeie.org'
 
-response = conn.list_objects_v2(
-    Bucket=my_bucket,
-    Prefix=prefix + ts,
-    MaxKeys=100)
+# response = conn.list_objects_v2(
+#     Bucket=my_bucket,
+#     Prefix=prefix + ts,
+#     MaxKeys=100)
 
-# Define the target directory for PEARS imports
-os.chdir(
-    r"C:\Users\netid\your\target\directory")
+# # Define the target directory for PEARS imports
+# output_path = r"C:\Users\netid\your\target\directory"
+# os.chdir(output_path)
 
-# Download the Excel files to the target directory
+# # Download the Excel files to the target directory
+# for f in response['Contents']:
+#     file = f['Key']
+#     filename = file[file.rfind('/') + 1:]
+#     conn.download_file(my_bucket, file, filename)
 
-for f in response['Contents']:
-    file = f['Key']
-    filename = file[file.rfind('/') + 1:]
-    conn.download_file(my_bucket, file, filename)
+# For script demo, using repo directories instead
+# Calculate the path to the root directory of this script
+ROOT_DIR = os.path.realpath(os.path.join(os.path.dirname(__file__), '.'))
+# Set input and output directories
+input_path = ROOT_DIR + r"\sample_inputs"
+output_path = ROOT_DIR + r"\sample_outputs"
+# Copy files from input_path to output_path
+files = os.listdir(input_path)
+for f in files:
+    shutil.copyfile(input_path + "\\" + f,
+                    output_path + "\\" + f)
 
 # Desired PEARS modules to reformat
 # 'Excel_File', 'Sheet Name'
@@ -133,7 +146,7 @@ def write_excel(file_name, sheet, dataframe):
 # Full execution
 
 for item in import_modules:
-    src = os.getcwd() + "\\" + item[0] + "_Export.xlsx"
+    src = output_path + "\\" + item[0] + "_Export.xlsx"
     # Read module's sheet
     df = pd.read_excel(src, sheet_name=item[1])
     # Remove custom data tag from column labels
