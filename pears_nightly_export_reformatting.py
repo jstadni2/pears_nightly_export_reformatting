@@ -48,13 +48,13 @@ from openpyxl.styles import Font, PatternFill, Border, Side
 # Calculate the path to the root directory of this script
 ROOT_DIR = os.path.realpath(os.path.join(os.path.dirname(__file__), '.'))
 # Set input and output directories
-input_path = ROOT_DIR + r"\sample_inputs"
-output_path = ROOT_DIR + r"\sample_outputs"
+input_path = ROOT_DIR + "/sample_inputs"
+output_path = ROOT_DIR + "/sample_outputs"
 # Copy files from input_path to output_path
 files = os.listdir(input_path)
 for f in files:
-    shutil.copyfile(input_path + "\\" + f,
-                    output_path + "\\" + f)
+    shutil.copyfile(input_path + "/" + f,
+                    output_path + "/" + f)
 
 # Desired PEARS modules to reformat
 # 'Excel_File', 'Sheet Name'
@@ -146,7 +146,7 @@ def write_excel(file_name, sheet, dataframe):
 # Full execution
 
 for item in import_modules:
-    src = output_path + "\\" + item[0] + "_Export.xlsx"
+    src = output_path + "/" + item[0] + "_Export.xlsx"
     # Read module's sheet
     df = pd.read_excel(src, sheet_name=item[1])
     # Remove custom data tag from column labels
